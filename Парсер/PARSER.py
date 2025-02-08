@@ -1,3 +1,6 @@
+'''Напишіть скрапер, який отримає список всіх ноутбуків із сайту,
+ включаючи їх детальну інформацію. Для роботи використовуємо бібліотеки bs4, requests.'''
+
 import requests 
 import csv
 from bs4 import BeautifulSoup as bs
@@ -81,7 +84,6 @@ def writer_xlsx(filename, data):
             sheet.cell(row=row_index, column=col_index+1, value=value)
 
     workbook.save(filename)
-
 
 def scrol(url_tamplate,teg_name,teg_description,teg_div,class_p,col):
     for i in range(1,col+1):# Перебираем URL для парсинга
