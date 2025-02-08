@@ -4,16 +4,16 @@ from bs4 import BeautifulSoup as bs
 import openpyxl as op
 
 
-from Config import url_tamplat,teg_name,teg_description
+from Config import url_tamplat,teg_name,teg_description,teg_div,class_p
 
-def parser(url_tamplate,teg_name,teg_description):
+def parser(url_tamplate,teg_div,class_p,teg_name,teg_description):
     
     
     r=requests.get(url_tamplate)
     
     soup = bs(r.text, "lxml")
     
-    produkts = soup.find_all('div', class_= 'product-wrapper card-body')
+    produkts = soup.find_all(teg_div, class_= class_p)
    
     
     laptops=[]
@@ -80,9 +80,9 @@ def writer_xlsx(filename, data):
     workbook.save(filename)
 
 
-def scrol(url_tamplate,teg_name,teg_description):
+def scrol(url_tamplate,teg_name,teg_description,teg_div,class_p):
     for i in range(1,21):
         url=url_tamplate+str(i)
-        parser(url,teg_name,teg_description)
+        parser(url,teg_name,teg_description,teg_div,class_p)
 
-scrol(url_tamplat,teg_name,teg_description)
+scrol(url_tamplat,teg_div,class_p,teg_name,teg_description)
