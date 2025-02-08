@@ -16,62 +16,53 @@ zombies=[ 1, 3, 5, 7 ] plants=[ 2, 4, 6, 8 ] -> True
 zombies=[ 1, 3, 5, 7 ] plants=[ 2, 4 ] -> False
 zombies=[ 1, 3, 5, 7 ] plants=[ 2, 4, 0, 8 ] -> True
 zombies=[ 2, 1, 1, 1 ] plants=[ 1, 2, 1, 1 ] -> True '''
+
+
 zombies=[ 1, 3, 5, 7 ]
 plants=[ 2, 4,]
 zombies_t=[[1,3,5,7],[ 1, 3, 5, 7 ],[ 1, 3, 5, 7 ],[2,1,1,1]]
 plants_t=[[2,4,6,8],[2,4],[2,4,0,8],[1,2,1,1]]
 
-def start_pawer(units):
+def start_pawer(units):  # Определяем стартовую силу команд
     sum_power=0
     for unit in units:
         sum_power+=unit
     return sum_power
 
-def check_lenght(zombies,plants):
+def check_lenght(zombies,plants):  #Проверяем количество юнитов в командах 
     rez=0
     amount_zombies=len(zombies)
     amount_plants=len(plants)
        
     if amount_zombies==amount_plants:
         return zombies,plants
-    elif amount_zombies>amount_plants:
+    elif amount_zombies>amount_plants:  # Добавляем игроков в команду растений
         rez=amount_zombies-amount_plants
         for i in range (rez):
             plants.append(0)
         return plants ,zombies
-    elif amount_zombies<amount_plants:
+    elif amount_zombies<amount_plants:# Добавляем игроков в команду зомби
         rez=amount_plants - amount_zombies
         for i in range(rez):
             zombies.append[0]
         
 
-'''def battles(zombies,plants):
-    count_z=0
-    count_p=0
-    for i in range(len(zombies)):
-        
-        if plants[i]>zombies[i]:
-            count_p+=1
-        elif plants[i]>zombies[i]:
-            count_z+=1
-    print(count_z,count_p)
-    return count_p,count_z'''
 
-def battle(zombies,plants):
+
+def battle(zombies,plants):# Проводим сражение
     check_lenght(zombies,plants)
-    #print(zombies,plants)
+   
     count_z=0
     count_p=0
-    #battles(zombies,plants)
-    for i in range(len(zombies)):
+    
+    for i in range(len(zombies)):# Считаем количество выживших юнитов
         
         if plants[i]>zombies[i]:
             count_p+=1
         elif plants[i]<zombies[i]:
             count_z+=1
-    #print(count_z,count_p)
-    if count_z>count_p:
-
+    
+    if count_z>count_p:# Определяем победителя
         print(False)
     elif count_z<count_p:
         print(True)
@@ -83,7 +74,7 @@ def battle(zombies,plants):
         else:
             print(False)
 
-def test_date(zombies_t,plants_t):
+def test_date(zombies_t,plants_t):# Функция для тестирования 
     
     for i in range(4):
             
@@ -92,4 +83,4 @@ def test_date(zombies_t,plants_t):
 
 if __name__== "__main__":
     test_date(zombies_t,plants_t)
-    #battle(zombies,plants)
+   

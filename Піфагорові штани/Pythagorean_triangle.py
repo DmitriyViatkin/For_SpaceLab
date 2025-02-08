@@ -9,14 +9,17 @@
 
 test=[[5,3,4],[6,8,10],[100,3,65],[5,3],[5,3,'text'],[3,4,5.0],[5.0,3.0,4.0],[5.1,4.0,3.0]]
 
-
+#Функция для проверки на возможность создать треугольник
 def triangle_pifagor(a,b,c):
+    #
     x,y,z =a**2,b**2,c**2
+    #проверяем условие для треугольника 
     if x+y==z or x+z==y or y+z==x:
         print(True)
     else:
         print(False)
 
+#Проверяем что все тестовые данные числа
 def check_test_data(lent):
     g=0
     for item in lent:
@@ -25,7 +28,7 @@ def check_test_data(lent):
             if g==3 and len(lent)==3:
                g=0
                return True
-
+# Тстируем работоспособность функции
 def test_date(list_test):
     for i in test:#check lenght
         flag=check_test_data(i)

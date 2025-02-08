@@ -17,38 +17,40 @@ datetime.datetime(2020, 1, 31, 0, 0),
   datetime.datetime(2020, 2, 2, 0, 0),
 datetime.datetime(2020, 2, 3, 0, 0)
 ]"""
-import datetime
+import datetime  # Импортируем модуль для работы с датой
 
-
+# тестовые данные 
 days =5
 work_days= 2
 rest_days= 1
 start_date= datetime.date(2020, 1, 30)
+# Списки для хранения рабочих и выходных дат
 work=[]
 rest=[]
 
-def work_day(day,work_days,rest_days,start_date):
+def work_day(days,work_days,rest_days,start_date):
     
     counts=0
     for count in range (days):
         
-        if counts<work_days:
-            work.append(start_date)
+        # Считаем рабочие дни 
+        if counts<work_days: 
+            work.append(start_date)# записываем в список
             start_date =start_date + datetime.timedelta(days=1)
             counts+=1
-            
+
+            # Считаем Выходные дни 
         elif counts>=work_days:
             for rez in range (rest_days):
-              rest.append(start_date)
+              rest.append(start_date)# записываем в список
               start_date =start_date + datetime.timedelta(days=1 )
               
             counts=0
-
+    print('Work days',work)# Выводим рабочие даты 
+    print('Rest days',rest)# Выводим выходные даты
     return work, rest
 
+if __name__== "__main__":
+  work_day(days,work_days,rest_days,start_date)
 
-work_day(days,work_days,rest_days,start_date)
 
-
-print('Work days',work)
-print('Rest days',rest)

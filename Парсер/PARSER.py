@@ -4,34 +4,36 @@ from bs4 import BeautifulSoup as bs
 import openpyxl as op
 
 
-from Config import url_tamplat,teg_name,teg_description,teg_div,class_p
+from Config import url_tamplat,teg_name,teg_description,teg_div,class_p,col
 
 def parser(url_tamplate,teg_div,class_p,teg_name,teg_description):
     
     
-    r=requests.get(url_tamplate)
+    r=requests.get(url_tamplate)#Отправляем запрос на получение страницы
     
-    soup = bs(r.text, "lxml")
+    soup = bs(r.text, "lxml")#Собираем все теги со страницы 
     
-    produkts = soup.find_all(teg_div, class_= class_p)
+    produkts = soup.find_all(teg_div, class_= class_p)#Поиск нужного блока по и их запись 
    
-    
+    #Сщздаем пустой словарь и словник для записи данных
     laptops=[]
     laptop={}
-
+  #Перебираем блоки для выбора нужных даных
     for produkt in produkts:
+        #Отбираем название и записываем в словарь
+        laptop['name']=produkt.find(teg_name).text  
+        #Отбирпем описание и записываем в словарь
+        laptop['description']=produkt.find(class_= teg_description).text  
+        laptops.append(laptop) # Записываем словари в список
         
-        laptop['name']=produkt.find(teg_name).text
-        
-        laptop['description']=produkt.find(class_= teg_description).text
-        laptops.append(laptop)
-    
+    # Записываем в нужные форматы
     writer_csv('Laptops_csv.csv',laptops)
     writer_xlsx('Laptops_XLSX.xlsx',laptops)
 
 def writer_csv(filename,data):
+    #Заголовки 
     headers = ['name', 'description']
-
+    
 # Открываем файл на запись
     with open(filename, 'a+', newline='') as csvfile:
         writer = csv.DictWriter(csvfile, headers)
@@ -46,7 +48,7 @@ def writer_csv(filename,data):
         except StopIteration:  # Файл пустой или только что создан
             writer.writeheader()
 
-        # Перемещаем указатель в конец файла
+        # Перемещаемся в низ файла
         csvfile.seek(0, 2)
 
         # Записываем данные
@@ -55,10 +57,11 @@ def writer_csv(filename,data):
 def writer_xlsx(filename, data):
     # Создаем новый рабочий лист
     workbook = None
-    try:
+    # проверяем на наличие файла для записи
+    try:#если файл существует
         workbook = op.load_workbook(filename)
         sheet = workbook.active
-    except FileNotFoundError:
+    except FileNotFoundError:# создаем если нет
         workbook = op.Workbook()
         sheet = workbook.active
 
@@ -72,7 +75,7 @@ def writer_xlsx(filename, data):
     for col, col_name in enumerate(headers):
         sheet.cell(row=1, column=col+1, value=col_name)
     start_row = sheet.max_row + 1
-    # Записываем новые данные
+    # Записываем полученые  данные
     for row_index, row_data in enumerate(data, start=start_row):
         for col_index, value in enumerate(row_data.values()):
             sheet.cell(row=row_index, column=col_index+1, value=value)
@@ -80,9 +83,11 @@ def writer_xlsx(filename, data):
     workbook.save(filename)
 
 
-def scrol(url_tamplate,teg_name,teg_description,teg_div,class_p):
-    for i in range(1,21):
+def scrol(url_tamplate,teg_name,teg_description,teg_div,class_p,col):
+    for i in range(1,col+1):# Перебираем URL для парсинга
         url=url_tamplate+str(i)
-        parser(url,teg_name,teg_description,teg_div,class_p)
+        parser(url,teg_name,teg_description,teg_div,class_p)# Парсим полученый URL
 
-scrol(url_tamplat,teg_div,class_p,teg_name,teg_description)
+        
+if __name__== "__main__":
+    scrol(url_tamplat,teg_div,class_p,teg_name,teg_description,col)
