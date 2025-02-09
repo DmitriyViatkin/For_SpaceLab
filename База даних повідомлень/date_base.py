@@ -8,3 +8,5 @@ async def init_db():
     )
     
     await Tortoise.generate_schemas()
+
+
